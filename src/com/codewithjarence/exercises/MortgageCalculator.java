@@ -15,11 +15,12 @@ public class MortgageCalculator {
         byte years = (byte) readNumber("Period (Years): ", 1,30);
 
         double mortgage = calculateMortgage(principal, annualInterest, years);
-
         printMortgage(mortgage);
+
+        printPaymentSchedule(principal, annualInterest, years);
     }
 
-    public static double readNumber(String prompt, int min, int max) {
+    private static double readNumber(String prompt, int min, int max) {
         double value;
         while (true) {
             System.out.print(prompt);
@@ -30,7 +31,7 @@ public class MortgageCalculator {
         return value;
     }
 
-    public static double calculateMortgage(int principal, float annualInterest, byte years) {
+    private static double calculateMortgage(int principal, float annualInterest, byte years) {
         double monthlyInterest = annualInterest / PERCENT / MONTHS_IN_YEAR;
         short numberOfPayments = (short) (years * MONTHS_IN_YEAR);
 
@@ -39,8 +40,37 @@ public class MortgageCalculator {
                 / (Math.pow(1 + monthlyInterest, numberOfPayments) - 1);
     }
 
-    public static void printMortgage(double mortgage) {
+    private static void printMortgage(double mortgage) {
+        System.out.println();
+        System.out.println("MORTGAGE");
+        System.out.println("-----------------");
         String mortgageFormatted = CURRENCY.format(mortgage);
-        System.out.print("Mortgage: " + mortgageFormatted);
+        System.out.print("Monthly Payments: " + mortgageFormatted);
+    }
+
+    private static double calculateBalance(int principal, float annualInterest, byte years, short numberOfPaymentsMade) {
+        double monthlyInterest = annualInterest / PERCENT / MONTHS_IN_YEAR;
+        short numberOfPayments = (short) (years * MONTHS_IN_YEAR);
+
+        return principal
+                * (Math.pow(1 + monthlyInterest, numberOfPayments) - Math.pow(1 + monthlyInterest, numberOfPaymentsMade))
+                / (Math.pow(1 + monthlyInterest, numberOfPayments) - 1);
+    }
+
+    private static double[] getRemainingBalances(int principal, float annualInterest, byte years) {
+        var balances = new double[years * MONTHS_IN_YEAR];
+        for (short month = 1; month <= balances.length; month++)
+            balances[month - 1] = calculateBalance(principal, annualInterest, years, month);
+        return balances;
+    }
+
+    private static void printPaymentSchedule(int principal, float annualInterest, byte years) {
+        System.out.println();
+        System.out.println();
+        System.out.println("PAYMENT SCHEDULE");
+        System.out.println("-----------------");
+
+        for (double balance: getRemainingBalances(principal, annualInterest, years))
+            System.out.println(CURRENCY.format(balance));
     }
 }
