@@ -8,15 +8,13 @@ public class MortgageCalculator {
     final static byte PERCENT = 100;
     final static byte MONTHS_IN_YEAR = 12;
     final static Scanner SCANNER = new Scanner(System.in);
+    final static NumberFormat CURRENCY = NumberFormat.getCurrencyInstance(Locale.US);
     static void main() {
         int principal = (int) readNumber("Principal ($1K - $1M): ", 1_000, 1_000_000);
         float annualInterest = (float) readNumber("Annual Interest Rate: ", 1, 30);
         byte years = (byte) readNumber("Period (Years): ", 1,30);
-
         double mortgage = calculateMortgage(principal, annualInterest, years);
-
-        String mortgageFormatted = NumberFormat.getCurrencyInstance(Locale.US).format(mortgage);
-        System.out.print("Mortgage: " + mortgageFormatted);
+        printMortgage(mortgage);
     }
 
     public static double readNumber(String prompt, int min, int max) {
@@ -37,5 +35,10 @@ public class MortgageCalculator {
         return principal
                 * (monthlyInterest * Math.pow(1 + monthlyInterest, numberOfPayments))
                 / (Math.pow(1 + monthlyInterest, numberOfPayments) - 1);
+    }
+
+    public static void printMortgage(double mortgage) {
+        String mortgageFormatted = CURRENCY.format(mortgage);
+        System.out.print("Mortgage: " + mortgageFormatted);
     }
 }
