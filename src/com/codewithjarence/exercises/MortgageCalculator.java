@@ -13,7 +13,9 @@ public class MortgageCalculator {
         int principal = (int) readNumber("Principal ($1K - $1M): ", 1_000, 1_000_000);
         float annualInterest = (float) readNumber("Annual Interest Rate: ", 1, 30);
         byte years = (byte) readNumber("Period (Years): ", 1,30);
+
         double mortgage = calculateMortgage(principal, annualInterest, years);
+
         printMortgage(mortgage);
     }
 
