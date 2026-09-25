@@ -1,0 +1,14 @@
+### IntelliJ IDEA ###
+.idea/
+*.iml
+
+### Java ###
+*.class
+out/
+target/
+
+/src/com/codewithjarence/Main.java
+
+### OS ###
+.DS_Store
+Thumbs.db
