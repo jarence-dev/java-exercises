@@ -57,20 +57,15 @@ public class MortgageCalculator {
                 / (Math.pow(1 + monthlyInterest, numberOfPayments) - 1);
     }
 
-    private static double[] getRemainingBalances(int principal, float annualInterest, byte years) {
-        var balances = new double[years * MONTHS_IN_YEAR];
-        for (short month = 1; month <= balances.length; month++)
-            balances[month - 1] = calculateBalance(principal, annualInterest, years, month);
-        return balances;
-    }
-
     private static void printPaymentSchedule(int principal, float annualInterest, byte years) {
         System.out.println();
         System.out.println();
         System.out.println("PAYMENT SCHEDULE");
         System.out.println("-----------------");
 
-        for (double balance: getRemainingBalances(principal, annualInterest, years))
+        for (short month = 1; month <= years * MONTHS_IN_YEAR; month++) {
+            double balance = calculateBalance(principal, annualInterest, years, month);
             System.out.println(CURRENCY.format(balance));
+        }
     }
 }
