@@ -40,7 +40,10 @@ public class MortgageCalculator {
     }
 
     public static void printMortgage(double mortgage) {
+        System.out.println();
+        System.out.println("MORTGAGE");
+        System.out.println("-----------------");
         String mortgageFormatted = CURRENCY.format(mortgage);
-        System.out.print("Mortgage: " + mortgageFormatted);
+        System.out.print("Monthly Payments: " + mortgageFormatted);
     }
 }
