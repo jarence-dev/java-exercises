@@ -8,6 +8,7 @@ out/
 target/
 
 /src/com/codewithjarence/Main.java
+/src/META-INF
 
 ### OS ###
 .DS_Store
