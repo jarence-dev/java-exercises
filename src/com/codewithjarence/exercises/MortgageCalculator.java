@@ -1,34 +1,21 @@
 package com.codewithjarence.exercises;
 
-import java.util.Scanner;
 import java.text.NumberFormat;
 import java.util.Locale;
 
 public class MortgageCalculator {
     final static byte PERCENT = 100;
     final static byte MONTHS_IN_YEAR = 12;
-    final static Scanner SCANNER = new Scanner(System.in);
     final static NumberFormat CURRENCY = NumberFormat.getCurrencyInstance(Locale.US);
     static void main() {
-        int principal = (int) readNumber("Principal ($1K - $1M): ", 1_000, 1_000_000);
-        float annualInterest = (float) readNumber("Annual Interest Rate: ", 1, 30);
-        byte years = (byte) readNumber("Period (Years): ", 1,30);
+        int principal = (int) Console.readNumber("Principal ($1K - $1M): ", 1_000, 1_000_000);
+        float annualInterest = (float) Console.readNumber("Annual Interest Rate: ", 1, 30);
+        byte years = (byte) Console.readNumber("Period (Years): ", 1,30);
 
         double mortgage = calculateMortgage(principal, annualInterest, years);
         printMortgage(mortgage);
 
         printPaymentSchedule(principal, annualInterest, years);
-    }
-
-    private static double readNumber(String prompt, int min, int max) {
-        double value;
-        while (true) {
-            System.out.print(prompt);
-            value = SCANNER.nextDouble();
-            if (value >= min && value <= max) break;
-            System.out.println("Enter a value between " + min + " and " + max + ".");
-        }
-        return value;
     }
 
     private static double calculateMortgage(int principal, float annualInterest, byte years) {
