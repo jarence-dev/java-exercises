@@ -1,23 +1,33 @@
 package com.codewithjarence.exercises;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class MortgageReport {
-    public static void printMortgage(double mortgage) {
+    private final MortgageCalculator mortgageCalculator;
+    private final NumberFormat CURRENCY;
+
+    public MortgageReport(MortgageCalculator mortgageCalculator) {
+        this.mortgageCalculator = mortgageCalculator;
+        CURRENCY = NumberFormat.getCurrencyInstance(Locale.US);
+    }
+
+    public void printMortgage() {
+        double mortgage = mortgageCalculator.calculateMortgage();
+        String mortgageFormatted = CURRENCY.format(mortgage);
         System.out.println();
         System.out.println("MORTGAGE");
         System.out.println("-----------------");
-        String mortgageFormatted = Main.CURRENCY.format(mortgage);
         System.out.print("Monthly Payments: " + mortgageFormatted);
     }
 
-    public static void printPaymentSchedule(int principal, float annualInterest, byte years) {
+    public void printPaymentSchedule() {
         System.out.println();
         System.out.println();
         System.out.println("PAYMENT SCHEDULE");
         System.out.println("-----------------");
-
-        for (short month = 1; month <= years * Main.MONTHS_IN_YEAR; month++) {
-            double balance = MortgageCalculator.calculateBalance(principal, annualInterest, years, month);
-            System.out.println(Main.CURRENCY.format(balance));
+        for (double balance: mortgageCalculator.getRemainingBalances()) {
+            System.out.println(CURRENCY.format(balance));
         }
     }
 }
